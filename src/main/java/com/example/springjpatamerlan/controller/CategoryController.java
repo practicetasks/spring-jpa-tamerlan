@@ -53,4 +53,9 @@ public class CategoryController {
     public void deleteById(@PathVariable int id) {
         categoryRepository.deleteById(id); // delete from categories where id = ?
     }
+
+    @GetMapping("/test")
+    public List<Category> test(@RequestParam String name) {
+        return categoryRepository.findByNameContainingIgnoreCase(name);
+    }
 }
