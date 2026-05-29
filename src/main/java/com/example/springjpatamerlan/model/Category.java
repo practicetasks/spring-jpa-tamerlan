@@ -22,6 +22,6 @@ public class Category {
 //    @OneToMany(mappedBy = "category")
 //    private List<Product> productList = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
-//    private List<Attribute> attributes = new ArrayList<>();
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    private List<Attribute> attributes = new ArrayList<>();
 }

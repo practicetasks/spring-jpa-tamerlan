@@ -2,6 +2,7 @@ package com.example.springjpatamerlan.repository;
 
 import com.example.springjpatamerlan.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findByNameContaining(String name); // select * from categories where name like '%науш%'
 
     List<Category> findByNameContainingIgnoreCase(String name); // select * from categories where lower(name) like lower('%науш%')
+
+
 }
 
 
