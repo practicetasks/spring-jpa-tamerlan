@@ -1,5 +1,6 @@
 package com.example.springjpatamerlan.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +20,15 @@ public class Product {
     private String name;
     private Double price;
 
-    @ManyToOne
+    // FetchType.LAZY - ленивая загрузка
+    // FetchType.EAGER - немедленная загрузка
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<ProductAttribute> productAttributes;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductAttribute> productAttributes;
 }

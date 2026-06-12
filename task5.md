@@ -1,6 +1,6 @@
 # Задача
 
-#### GET /categories/{id} - получение товара по id
+#### GET /products/{id} - получение товара по id
  
 ```json
 {

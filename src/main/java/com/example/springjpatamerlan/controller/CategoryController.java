@@ -24,9 +24,16 @@ public class CategoryController {
     private final CategoryRepository categoryRepository;
     private final AttributeRepository attributeRepository;
 
+    // join fetch
+    // EntityGraph
+
     @GetMapping
-    public List<Category> findAll() {
-        return categoryRepository.findAll(); // select * from categories
+    public List<CategoryResponseDto> findAll() {
+//        return categoryRepository.findAllWithAttributes().stream()
+
+        return categoryRepository.findAllWithAttributesEntityGraph().stream()
+                .map(category -> toResponseDto(category))
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -58,20 +65,7 @@ public class CategoryController {
             category.getAttributes().add(attribute);
         }
 
-        CategoryResponseDto responseDto = new CategoryResponseDto();
-        responseDto.setId(category.getId());
-        responseDto.setName(category.getName());
-
-        List<AttributeDto> attributeDtos = new ArrayList<>();
-        for (Attribute attribute : category.getAttributes()) {
-            AttributeDto attributeDto = new AttributeDto();
-            attributeDto.setId(attribute.getId());
-            attributeDto.setName(attribute.getName());
-            attributeDtos.add(attributeDto);
-        }
-
-        responseDto.setAttributes(attributeDtos);
-        return responseDto;
+        return toResponseDto(category);
     }
 
     @PutMapping
@@ -92,5 +86,22 @@ public class CategoryController {
     @GetMapping("/test")
     public List<Category> test(@RequestParam String name) {
         return categoryRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    private CategoryResponseDto toResponseDto(Category category) {
+        CategoryResponseDto responseDto = new CategoryResponseDto();
+        responseDto.setId(category.getId());
+        responseDto.setName(category.getName());
+
+        List<AttributeDto> attributeDtos = new ArrayList<>();
+        for (Attribute attribute : category.getAttributes()) {
+            AttributeDto attributeDto = new AttributeDto();
+            attributeDto.setId(attribute.getId());
+            attributeDto.setName(attribute.getName());
+            attributeDtos.add(attributeDto);
+        }
+
+        responseDto.setAttributes(attributeDtos);
+        return responseDto;
     }
 }
